@@ -3,9 +3,9 @@
 import 'package:facilities_booking_unionsuites/pages/comingsoonbooking.dart';
 import 'package:flutter/material.dart';
 import '../bottom_bar.dart';
-import '../ent_facilities_page.dart';
-import '../sportfacilities_page.dart';
-import '../study_facilities_page.dart';
+import 'ent_facilities_page.dart';
+import 'sportfacilities_page.dart';
+import 'study_facilities_page.dart';
 import 'userProfile.dart';
 
 class Home extends StatefulWidget {
@@ -18,7 +18,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> 
 with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  PageController _myPage = PageController(initialPage: 0);
 
   @override
   void initState() {

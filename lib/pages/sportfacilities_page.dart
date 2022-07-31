@@ -1,10 +1,10 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, camel_case_types
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
 
-import 'package:facilities_booking_unionsuites/facility_detail.dart';
+import 'package:facilities_booking_unionsuites/pages/facility_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
-class Ent_facilities_page extends StatelessWidget {
+class FacilityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,12 +23,11 @@ class Ent_facilities_page extends StatelessWidget {
                 mainAxisSpacing: 15.0,
                 childAspectRatio: 0.8,
                 children: <Widget>[
-                  _buildCard('Arcade Room', 'FREE', 'assets/images/arcaderoom.svg',
+                  _buildCard('Futsal Pitch', 'RM 100', 'assets/images/futsal.svg',
                       false, false, 
-                      'Allows 6 pax per session.', context),
-                  _buildCard('Theater Room', 'RM 100', 'assets/images/theater.svg',
-                      false, false, 
-                      'Room allows 4 pax per session.', context),
+                      'Pitch available everyday from 9AM to 1AM. Can bring in 9 Guests per game.', context),
+                  _buildCard('Badminton Pitch', 'RM 50', 'assets/images/badminton.svg',
+                      true, false, '', context),
                 ],
               )),
           SizedBox(height: 15.0)
@@ -46,14 +45,14 @@ class Ent_facilities_page extends StatelessWidget {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => FacilityDetail(
                     assetPath: imgPath,
-                    facilityprice:  price,
+                    facilityprice:price,
                     facilityname: name,
                     info: info,
                   )));
             },
             child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(18.0),
                     boxShadow: [
                       BoxShadow(
                           color: Colors.grey.withOpacity(0.2),
@@ -63,7 +62,7 @@ class Ent_facilities_page extends StatelessWidget {
                     color: Colors.white),
                 child: Column(children: [
                   Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(12.0),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [

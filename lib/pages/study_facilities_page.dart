@@ -1,6 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, camel_case_types
 
-import 'package:facilities_booking_unionsuites/facility_detail.dart';
+import 'package:facilities_booking_unionsuites/pages/facility_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
