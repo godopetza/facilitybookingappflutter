@@ -122,7 +122,7 @@ with SingleTickerProviderStateMixin {
       floatingActionButton: FloatingActionButton(onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const UserProfile()),
+          MaterialPageRoute(builder: (context) => UserProfile()),
         );
       },
       backgroundColor: Color(0xFFF17532),

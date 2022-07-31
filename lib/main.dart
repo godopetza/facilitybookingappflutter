@@ -1,22 +1,21 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:facilities_booking_unionsuites/pages/comingsoonbooking.dart';
-import 'package:facilities_booking_unionsuites/pages/login.dart';
-import 'package:facilities_booking_unionsuites/pages/success.dart';
 import 'package:facilities_booking_unionsuites/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:facilities_booking_unionsuites/pages/loading.dart';
-import 'package:facilities_booking_unionsuites/pages/failed.dart';
-import 'package:facilities_booking_unionsuites/pages/home.dart';
-import 'package:facilities_booking_unionsuites/pages/userProfile.dart';
-import 'pages/resetPassword.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(
-    MaterialApp(
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       home: Wrapper(),
       // initialRoute: '/home',
       // routes: {
@@ -30,6 +29,6 @@ void main() async {
       //   '/failed': (context) => FailedScreen(),
       //   '/resetPassword': (context) => ResetPassword(),
       // },
-    ),
-  );
+    );
+  }
 }

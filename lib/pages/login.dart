@@ -1,11 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:ffi';
-
-import 'package:facilities_booking_unionsuites/pages/home.dart';
 import 'package:facilities_booking_unionsuites/providers/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -15,17 +12,27 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  final AuthService _auth = AuthService();
+  String? errorMessage = '';
+  bool isLogin = true;
 
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+  Future<void> signInWithEmailAndPassword() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
+  }
 
-    super.dispose();
+  Widget _errorMessage() {
+    return Text(errorMessage == '' ? '' : 'Hmm ? $errorMessage', style: TextStyle(color: Colors.white),);
   }
 
   @override
@@ -57,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: TextField(
-                    controller: emailController,
+                    controller: _emailController,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Username',
@@ -77,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: TextField(
-                    controller: passwordController,
+                    controller: _passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -91,36 +98,28 @@ class _LoginScreenState extends State<LoginScreen> {
             //login button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: GestureDetector(
-                onTap: () async {
-                  //login auth here
-                  dynamic result = await _auth.signInAnon();
-                  if(result == null){
-                    print('error signing in');
-                  } else {
-                    print('signed in');
-                    print(result.uid);
-                  }
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.deepOrange,
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Center(
-                        child: Text(
-                      'Log In',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    )),
+                child: GestureDetector(
+                  onTap: isLogin ? signInWithEmailAndPassword : _errorMessage,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.deepOrange,
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Center(
+                          child: Text(
+                        'Log In',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      )),
+                    ),
                   ),
                 ),
               ),
-            )
+            _errorMessage(),
           ],
         ),
       ),

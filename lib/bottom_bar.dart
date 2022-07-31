@@ -53,7 +53,7 @@ class BottomBar extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const UserProfile()),
+                        MaterialPageRoute(builder: (context) => UserProfile()),
                       );
                     },
                   ),
@@ -73,7 +73,7 @@ class BottomBar extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const UserProfile()),
+                        MaterialPageRoute(builder: (context) => UserProfile()),
                       );
                     },
                   ),
@@ -83,7 +83,7 @@ class BottomBar extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const UserProfile()),
+                        MaterialPageRoute(builder: (context) => UserProfile()),
                       );
                     },
                   ),
