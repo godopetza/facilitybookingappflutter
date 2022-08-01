@@ -110,9 +110,10 @@ class _BottomBarState extends State<BottomBar> {
       ),
        body: PageView(
         controller: _myPage,
-        onPageChanged: (int) {
-          print('Page Changes to index $int');
-        },
+        // This will print in your console to show page changes for testing
+        // onPageChanged: (int) {
+        //   print('Page Changes to index $int');
+        // },
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           Home(),

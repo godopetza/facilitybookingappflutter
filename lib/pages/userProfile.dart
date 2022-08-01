@@ -16,16 +16,38 @@ class UserProfile extends StatelessWidget {
   }
 
   Widget _userUid() {
-    return Text(user?.email ?? "User Email");
+    return Text(
+      user?.email ?? "User Email",
+      style: TextStyle(color: Colors.white),
+    );
   }
 
-  Widget _signOutButton() {
-    return ElevatedButton(onPressed: signOut, child: const Text('Sign Out'));
-  }
+  // Widget _signOutButton() {
+  //   return ElevatedButton(onPressed: signOut, child: const Text('Sign Out'));
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 1,
+        backgroundColor: Colors.black,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: TextButton.icon(
+              icon: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+              label: Text('Logout', style: TextStyle(color: Colors.white)),
+              onPressed: () {
+                signOut();
+              },
+            ),
+          )
+        ],
+      ),
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Center(
@@ -34,19 +56,11 @@ class UserProfile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             // ignore: prefer_const_literals_to_create_immutables
             children: [
-              Image(
-                image: Svg('assets/images/under_construction.svg'),
-                height: 250.0,
-                width: 250.0,
-              ),
-              Text(
-                'Under Construction',
-                style: TextStyle(color: Colors.white, fontSize: 25.0),
-              ),
               SizedBox(
                 height: 30.0,
               ),
-              _signOutButton(),
+              _userUid(),
+              // _signOutButton(),
             ],
           ),
         ),
