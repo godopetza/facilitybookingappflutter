@@ -51,18 +51,6 @@ class UserProfile extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => NotificationPage()),
-          // );
-        },
-        backgroundColor: Color(0xFFF17532),
-        child: Icon(Icons.notifications_none),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomBar(),
     );
   }
 }

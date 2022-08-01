@@ -2,6 +2,7 @@ import 'package:facilities_booking_unionsuites/pages/login.dart';
 import 'package:facilities_booking_unionsuites/providers/auth.dart';
 import 'package:flutter/material.dart';
 
+import 'bottom_bar.dart';
 import 'pages/userProfile.dart';
 
 class Wrapper extends StatefulWidget {
@@ -18,7 +19,7 @@ class _WrapperState extends State<Wrapper> {
         stream: AuthService().authStateChanges,
         builder: ((context, snapshot) {
           if (snapshot.hasData) {
-            return UserProfile();
+            return const BottomBar();
           } else {
             return const LoginScreen();
           }

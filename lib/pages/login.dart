@@ -32,7 +32,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _errorMessage() {
-    return Text(errorMessage == '' ? '' : 'Hmm ? $errorMessage', style: TextStyle(color: Colors.white),);
+    return Text(
+      errorMessage == '' ? '' : 'Hmm ? $errorMessage', 
+      style: TextStyle(
+        color: Colors.white
+        ),
+    );
   }
 
   @override

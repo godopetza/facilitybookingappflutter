@@ -280,13 +280,6 @@ class _FacilityDetailState extends State<FacilityDetail> {
               ))),
         ))
       ]),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Color(0xFFF17532),
-        child: Icon(Icons.notifications_none),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomBar(),
     );
   }
 

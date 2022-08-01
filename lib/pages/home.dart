@@ -119,17 +119,6 @@ with SingleTickerProviderStateMixin {
                     ],
                   ),
             ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => UserProfile()),
-        );
-      },
-      backgroundColor: Color(0xFFF17532),
-      child: Icon(Icons.notifications_none),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomBar(),
     );
   }
 }
