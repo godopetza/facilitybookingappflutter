@@ -23,10 +23,10 @@ class Ent_facilities_page extends StatelessWidget {
                 mainAxisSpacing: 15.0,
                 childAspectRatio: 0.8,
                 children: <Widget>[
-                  _buildCard('Arcade Room', 'FREE', 'assets/images/arcaderoom.svg',
+                  _buildCard('Arcade Room', '0', 'assets/images/arcaderoom.svg',
                       false, false, 
                       'Allows 6 pax per session.', context),
-                  _buildCard('Theater Room', 'RM 100', 'assets/images/theater.svg',
+                  _buildCard('Theater Room', '100', 'assets/images/theater.svg',
                       false, false, 
                       'Room allows 4 pax per session.', context),
                 ],
@@ -83,7 +83,7 @@ class Ent_facilities_page extends StatelessWidget {
                                   image: Svg(imgPath),
                                   fit: BoxFit.contain)))),
                   SizedBox(height: 7.0),
-                  Text(price,
+                  Text('RM $price',
                       style: TextStyle(
                           color: Color(0xFFCC8053),
                           fontFamily: 'Varela',

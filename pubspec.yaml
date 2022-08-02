@@ -43,6 +43,10 @@ dependencies:
   firebase_auth: ^3.6.1
   cloud_firestore: ^3.4.2
   provider: ^6.0.3
+  intl:
+  date_time_picker: ^2.1.0
+  date_picker_timeline: ^1.2.3
+  numberpicker: ^2.1.1
 
 dev_dependencies:
   flutter_test:

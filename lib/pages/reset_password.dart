@@ -1,6 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:facilities_booking_unionsuites/pages/home.dart';
 import 'package:flutter/material.dart';
 
 class ResetPassword extends StatefulWidget {
@@ -20,8 +17,8 @@ class _ResetPasswordState extends State<ResetPassword> {
           mainAxisAlignment: MainAxisAlignment.center,
           // ignore: prefer_const_literals_to_create_immutables
           children: <Widget>[
-            Image(image: AssetImage('assets/images/logo.jpg')),
-            Text(
+            const Image(image: AssetImage('assets/images/logo.jpg')),
+            const Text(
               'Reset Your Password!', 
               style: TextStyle(
                 color: Colors.white,
@@ -29,7 +26,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 fontSize: 20.0,
                 ),
                 ),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             //username textfield
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -38,8 +35,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                   color: Colors.white,
                   border: Border.all(color: Colors.orange)
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 20.0),
                   child: TextField(
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -49,7 +46,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             //login button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -62,8 +59,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                     color: Colors.deepOrange,
                     borderRadius: BorderRadius.circular(12)
                     ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(20.0),
                     child: Center(
                       child: Text(
                       'Reset Password',

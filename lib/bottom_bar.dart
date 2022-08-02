@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
 import 'package:facilities_booking_unionsuites/pages/comingsoonbooking.dart';
-import 'package:facilities_booking_unionsuites/pages/userProfile.dart';
+import 'package:facilities_booking_unionsuites/pages/user_profile.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/home.dart';

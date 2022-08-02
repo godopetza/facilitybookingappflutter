@@ -23,9 +23,8 @@ class Study_facilities_page extends StatelessWidget {
                 mainAxisSpacing: 15.0,
                 childAspectRatio: 0.8,
                 children: <Widget>[
-                  _buildCard('Study Room', 'FREE', 'assets/images/studyroom.svg',
-                      false, false, 
-                      'Room allows 4 pax per session.', context),
+                  _buildCard('Study Room', '0', 'assets/images/studyroom.svg',
+                      false, false, 'Room allows 4 pax per session.', context),
                 ],
               )),
           SizedBox(height: 15.0)
@@ -40,13 +39,13 @@ class Study_facilities_page extends StatelessWidget {
         padding: EdgeInsets.only(top: 5.0, bottom: 19.0, left: 5.0, right: 5.0),
         child: InkWell(
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => FacilityDetail(
-                    assetPath: imgPath,
-                    facilityprice:  price,
-                    facilityname: name,
-                    info: info,
-                  )));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => FacilityDetail(
+                        assetPath: imgPath,
+                        facilityprice: price,
+                        facilityname: name,
+                        info: info,
+                      )));
             },
             child: Container(
                 decoration: BoxDecoration(
@@ -69,7 +68,9 @@ class Study_facilities_page extends StatelessWidget {
                                 : Icon(Icons.favorite_border,
                                     color: Color(0xFFEF7532))
                           ])),
-                          SizedBox(height: 8.0,),
+                  SizedBox(
+                    height: 8.0,
+                  ),
                   Hero(
                       tag: imgPath,
                       child: Container(
@@ -77,10 +78,9 @@ class Study_facilities_page extends StatelessWidget {
                           width: 75.0,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: Svg(imgPath),
-                                  fit: BoxFit.contain)))),
+                                  image: Svg(imgPath), fit: BoxFit.contain)))),
                   SizedBox(height: 7.0),
-                  Text(price,
+                  Text('RM $price',
                       style: TextStyle(
                           color: Color(0xFFCC8053),
                           fontFamily: 'Varela',
@@ -91,9 +91,6 @@ class Study_facilities_page extends StatelessWidget {
                           fontFamily: 'Varela',
                           fontSize: 20.0)),
                 ]
-                )
-                )
-                )
-                );
+                ))));
   }
 }

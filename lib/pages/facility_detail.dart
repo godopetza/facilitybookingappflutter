@@ -1,11 +1,17 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_typing_uninitialized_variables, use_key_in_widget_constructors, prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, unnecessary_new
 
-import 'package:facilities_booking_unionsuites/bottom_bar.dart';
+import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:facilities_booking_unionsuites/pages/failed.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:intl/intl.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:toast/toast.dart';
+
+import '../providers/auth.dart';
+
 class FacilityDetail extends StatefulWidget {
   final assetPath, facilityprice, facilityname, info;
 
@@ -18,6 +24,26 @@ class FacilityDetail extends StatefulWidget {
 
 class _FacilityDetailState extends State<FacilityDetail> {
   late Razorpay razorpay;
+
+  final DatePickerController _dateController = DatePickerController();
+  late DateTime _selectedDate = DateTime.now();
+
+  TimeOfDay _timeOfDay = TimeOfDay(hour: 9, minute: 37);
+  int _currentHours = 1;
+  String totalAmount = "0";
+
+  final User? user = AuthService().currentUser;
+
+  void _showTimePicker() {
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      setState(() {
+        _timeOfDay = value!;
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -50,10 +76,10 @@ class _FacilityDetailState extends State<FacilityDetail> {
   void openCheckout() {
     var options = {
       "key": "rzp_test_b0dKgBYsBlwXaL",
-      "amount": 20000,
+      "amount": totalAmount * 100,
       "name": "UnionSuites",
-      "description": "Payment for facility",
-      "prefill": {"contact": "2323232323", "email": "union@gmail.com"},
+      "description": 'payment for ${widget.facilityname}',
+      "prefill": {"contact": "9834555555", "email": "$_userUid"},
       "external": {
         "wallets": ["paytm"]
       }
@@ -67,6 +93,13 @@ class _FacilityDetailState extends State<FacilityDetail> {
         MaterialPageRoute(builder: (context) => const FailedScreen()),
       );
     }
+  }
+
+  Widget _userUid() {
+    return Text(
+      user?.email ?? "User Email",
+      style: TextStyle(color: Colors.white),
+    );
   }
 
   @override
@@ -101,7 +134,7 @@ class _FacilityDetailState extends State<FacilityDetail> {
                 fit: BoxFit.contain)),
         SizedBox(height: 20.0),
         Center(
-          child: Text(widget.facilityprice,
+          child: Text('RM ${widget.facilityprice}',
               style: TextStyle(
                   fontFamily: 'Varela',
                   fontSize: 22.0,
@@ -133,89 +166,128 @@ class _FacilityDetailState extends State<FacilityDetail> {
           ),
         ),
         SizedBox(height: 20.0),
-        //Available dates+time
-        //month, year
+        //Dates
         Container(
           width: MediaQuery.of(context).size.width - 50.0,
           margin: EdgeInsets.only(left: 30),
-          child: Text(
-            'July 2022',
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'Varela',
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0,
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                DateFormat.yMMMMd().format(DateTime.now()),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Varela',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                ),
+              ),
+              Text(
+                'Today',
+                style: TextStyle(color: Colors.white),
+              )
+            ],
           ),
         ),
         SizedBox(height: 20.0),
         //picking dates
         Container(
+          margin: EdgeInsets.only(left: 30.0, right: 30.0),
           height: 90.0,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              dates('Sun', '24', true),
-              dates('Mon', '25', false),
-              dates('Tue', '26', false),
-              dates('Wed', '27', false),
-              dates('Thu', '28', false),
-              dates('Fri', '29', false),
-              dates('Sat', '30', false)
-            ],
+          child: DatePicker(
+            DateTime.now(),
+            controller: _dateController,
+            initialSelectedDate: DateTime.now(),
+            selectionColor: Color(0xff107163),
+            selectedTextColor: Colors.white,
+            dateTextStyle: TextStyle(fontSize: 15.0, color: Colors.white70),
+            monthTextStyle: TextStyle(fontSize: 10.0, color: Colors.white),
+            dayTextStyle: TextStyle(fontSize: 10.0, color: Colors.white70),
+            onDateChange: (selectedDate) {
+              setState(() {
+                _selectedDate = selectedDate;
+              });
+            },
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(left: 20, top: 30),
-          child: Text(
-            'Start',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.w700,
+        Center(
+          child: Container(
+            margin: EdgeInsets.only(top: 30),
+            child: Text(
+              'Start Time',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(right: 20),
-          child: GridView.count(
-            shrinkWrap: true,
-            crossAxisCount: 3,
-            physics: NeverScrollableScrollPhysics(),
-            childAspectRatio: 2.7,
-            children: [
-              facilityTimingsData("08:30 AM", true),
-              facilityTimingsData("08:30 AM", false),
-              facilityTimingsData("08:30 AM", false),
-              facilityTimingsData("08:30 AM", false),
-              facilityTimingsData("08:30 AM", false),
-              facilityTimingsData("08:30 AM", false),
-            ],
-          ),
+        Center(
+          child: Container(
+              margin: EdgeInsets.only(top: 20),
+              child: GestureDetector(
+                onTap: _showTimePicker,
+                child: Text(
+                  _timeOfDay.format(context).toString(),
+                  style: TextStyle(
+                    fontSize: 50.0,
+                    color: Colors.white,
+                  ),
+                ),
+              )),
         ),
-        Container(
-          margin: EdgeInsets.only(left: 25, top: 30),
-          child: Text(
-            'Duration',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.w700,
+        Center(
+          child: Container(
+            margin: EdgeInsets.only(top: 30, bottom: 20.0),
+            child: Text(
+              'Hours',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(right: 20),
-          child: GridView.count(
-            shrinkWrap: true,
-            crossAxisCount: 2,
-            physics: NeverScrollableScrollPhysics(),
-            childAspectRatio: 2.6,
+        Center(
+          child: Stack(
+            alignment: Alignment.center,
             children: [
-              facilityTimingsHours('', true),
-              facilityTimingsHours('', false),
+              Positioned(
+                  child: Container(
+                height: 40,
+                width: 40,
+                decoration: BoxDecoration(
+                  color: Color(0xff107163),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+              )),
+              Container(
+                  child: NumberPicker(
+                textStyle: TextStyle(fontSize: 20.0, color: Colors.white),
+                axis: Axis.horizontal,
+                selectedTextStyle: TextStyle(
+                    fontSize: 30.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+                value: _currentHours,
+                itemHeight: 45,
+                itemWidth: 45,
+                maxValue: 4,
+                itemCount: 7,
+                minValue: 1,
+                onChanged: (v) {
+                  setState(() {
+                    _currentHours = v;
+                    int sum =
+                        (int.parse(widget.facilityprice) * _currentHours) + 100;
+                    totalAmount = sum.toString();
+                  });
+                },
+              )),
             ],
           ),
         ),
@@ -243,8 +315,7 @@ class _FacilityDetailState extends State<FacilityDetail> {
                           fontSize: 15.0,
                           fontWeight: FontWeight.bold,
                         )),
-                    Text(
-                        '200',
+                    Text(totalAmount,
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Varela',
@@ -354,142 +425,6 @@ class _FacilityDetailState extends State<FacilityDetail> {
                         fontSize: 15,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-          );
-  }
-
-  Widget facilityTimingsData(String time, bool isSelected) {
-    return isSelected
-        ? Container(
-            margin: EdgeInsets.only(left: 20, top: 10),
-            decoration: BoxDecoration(
-              color: Color(0xff107163),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(right: 2),
-                  child: Icon(
-                    Icons.access_time,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 2),
-                  child: Text(
-                    '08:30 AM',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 17,
-                      fontFamily: 'Roboto',
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
-        : Container(
-            margin: EdgeInsets.only(left: 20, top: 10),
-            decoration: BoxDecoration(
-              color: Color(0xffEEEEEE),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(right: 2),
-                  child: Icon(
-                    Icons.access_time,
-                    color: Colors.black,
-                    size: 18,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 2),
-                  child: Text(
-                    '08:30 AM',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 17,
-                      fontFamily: 'Roboto',
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-  }
-
-  Widget facilityTimingsHours(String time, bool isSelected) {
-    return isSelected
-        ? Container(
-            margin: EdgeInsets.only(left: 20, top: 10),
-            decoration: BoxDecoration(
-              color: Color(0xff107163),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(right: 2),
-                  child: Icon(
-                    Icons.timelapse,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 2),
-                  child: Text(
-                    '1 HOUR',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 17,
-                      fontFamily: 'Roboto',
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
-        : Container(
-            margin: EdgeInsets.only(left: 20, top: 10),
-            decoration: BoxDecoration(
-              color: Color(0xffEEEEEE),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(right: 2),
-                  child: Icon(
-                    Icons.timelapse,
-                    color: Colors.black,
-                    size: 18,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 2),
-                  child: Text(
-                    '2 HOURS',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 17,
-                      fontFamily: 'Roboto',
-                    ),
                   ),
                 ),
               ],

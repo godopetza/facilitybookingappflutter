@@ -23,10 +23,10 @@ class FacilityPage extends StatelessWidget {
                 mainAxisSpacing: 15.0,
                 childAspectRatio: 0.8,
                 children: <Widget>[
-                  _buildCard('Futsal Pitch', 'RM 100', 'assets/images/futsal.svg',
+                  _buildCard('Futsal Pitch', '100', 'assets/images/futsal.svg',
                       false, false, 
                       'Pitch available everyday from 9AM to 1AM. Can bring in 9 Guests per game.', context),
-                  _buildCard('Badminton Pitch', 'RM 50', 'assets/images/badminton.svg',
+                  _buildCard('Badminton Pitch', '50', 'assets/images/badminton.svg',
                       true, false, '', context),
                 ],
               )),
@@ -82,7 +82,7 @@ class FacilityPage extends StatelessWidget {
                                   image: Svg(imgPath),
                                   fit: BoxFit.contain)))),
                   SizedBox(height: 7.0),
-                  Text(price,
+                  Text('RM $price',
                       style: TextStyle(
                           color: Color(0xFFCC8053),
                           fontFamily: 'Varela',

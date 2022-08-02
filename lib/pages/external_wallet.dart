@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 
 class ExternalWallet extends StatefulWidget {
@@ -19,13 +17,13 @@ class _ExternalWalletState extends State<ExternalWallet> {
           mainAxisAlignment: MainAxisAlignment.center,
           // ignore: prefer_const_literals_to_create_immutables
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 120.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 120.0),
               child: CircleAvatar(backgroundColor: Colors.green,
               radius: 150, child: Icon(Icons.wallet_giftcard, color: Colors.black, size: 150.0,),)
             ),
-            SizedBox(height: 30.0),
-            Text(
+            const SizedBox(height: 30.0),
+            const Text(
               'External Wallet', 
               style: TextStyle(
                 color: Colors.white,
