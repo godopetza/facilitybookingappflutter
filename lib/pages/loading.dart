@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -16,7 +14,7 @@ class _LoadingState extends State<Loading> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
-        children: <Widget>[
+        children: const <Widget>[
           SizedBox(height: 500.0,),
           SpinKitCircle(
             color: Colors.orange,

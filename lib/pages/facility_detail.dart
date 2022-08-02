@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_typing_uninitialized_variables, use_key_in_widget_constructors, prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, unnecessary_new
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:facilities_booking_unionsuites/pages/failed.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +16,10 @@ class FacilityDetail extends StatefulWidget {
   final assetPath, facilityprice, facilityname, info;
 
   FacilityDetail(
-      {this.assetPath, this.facilityprice, this.facilityname, this.info});
+      {this.assetPath,
+      this.facilityprice,
+      this.facilityname,
+      this.info,});
 
   @override
   State<FacilityDetail> createState() => _FacilityDetailState();
@@ -26,13 +29,14 @@ class _FacilityDetailState extends State<FacilityDetail> {
   late Razorpay razorpay;
 
   final DatePickerController _dateController = DatePickerController();
+
   late DateTime _selectedDate = DateTime.now();
 
-  TimeOfDay _timeOfDay = TimeOfDay(hour: 9, minute: 37);
+  TimeOfDay _timeOfDay = TimeOfDay(hour: 0, minute: 00);
   int _currentHours = 1;
-  String totalAmount = "0";
+  String totalAmount = "100";
 
-  final User? user = AuthService().currentUser;
+  final String uid = AuthService().currentUser!.uid;
 
   void _showTimePicker() {
     showTimePicker(
@@ -79,7 +83,7 @@ class _FacilityDetailState extends State<FacilityDetail> {
       "amount": totalAmount * 100,
       "name": "UnionSuites",
       "description": 'payment for ${widget.facilityname}',
-      "prefill": {"contact": "9834555555", "email": "$_userUid"},
+      "prefill": {"contact": "9834555555", "email": "user@union.suite"},
       "external": {
         "wallets": ["paytm"]
       }
@@ -93,13 +97,6 @@ class _FacilityDetailState extends State<FacilityDetail> {
         MaterialPageRoute(builder: (context) => const FailedScreen()),
       );
     }
-  }
-
-  Widget _userUid() {
-    return Text(
-      user?.email ?? "User Email",
-      style: TextStyle(color: Colors.white),
-    );
   }
 
   @override
@@ -200,9 +197,9 @@ class _FacilityDetailState extends State<FacilityDetail> {
             initialSelectedDate: DateTime.now(),
             selectionColor: Color(0xff107163),
             selectedTextColor: Colors.white,
-            dateTextStyle: TextStyle(fontSize: 15.0, color: Colors.white70),
-            monthTextStyle: TextStyle(fontSize: 10.0, color: Colors.white),
-            dayTextStyle: TextStyle(fontSize: 10.0, color: Colors.white70),
+            dateTextStyle: TextStyle(fontSize: 10.0, color: Colors.white70),
+            monthTextStyle: TextStyle(fontSize: 9.0, color: Colors.white),
+            dayTextStyle: TextStyle(fontSize: 9.0, color: Colors.white70),
             onDateChange: (selectedDate) {
               setState(() {
                 _selectedDate = selectedDate;
@@ -332,7 +329,14 @@ class _FacilityDetailState extends State<FacilityDetail> {
         Center(
             child: GestureDetector(
           onTap: () {
-            openCheckout();
+            savebooking(
+              uid: uid,
+              selectedDate: _selectedDate,
+              hours: _currentHours,
+              facility: widget.facilityname,
+              starttime: _timeOfDay,
+            );
+            // openCheckout();
           },
           child: Container(
               margin: EdgeInsets.only(bottom: 50),
@@ -354,81 +358,59 @@ class _FacilityDetailState extends State<FacilityDetail> {
     );
   }
 
-  totalamount() {}
+  Future savebooking({
+    required DateTime selectedDate,
+    required int hours,
+    required String facility,
+    required TimeOfDay starttime,
+    required String uid,
+  }) async {
+    
 
-  dates(String day, String date, bool isSelected) {
-    return isSelected
-        ? Container(
-            width: 70,
-            margin: EdgeInsets.only(right: 15),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  child: Text(
-                    day,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  padding: EdgeInsets.all(7),
-                  child: Text(
-                    date,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-          )
-        : Container(
-            width: 70,
-            margin: EdgeInsets.only(right: 15),
-            decoration: BoxDecoration(
-              color: Color(0xffEEEEEE),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  child: Text(
-                    day,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  padding: EdgeInsets.all(7),
-                  child: Text(
-                    date,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-          );
+    //Reference to database
+    final docUser = FirebaseFirestore.instance
+        .collection('bookings')
+        .doc(uid)
+        .collection(facility);
+
+    final user = User(
+        id: docUser.id,
+        uid: uid,
+        facility: facility,
+        starttime: starttime.toString(),
+        hours: hours,
+        selectedDate: selectedDate);
+
+    final json = user.toJson();
+
+    // Create document and write data to firebase
+    await docUser.add(json);
   }
+}
+
+class User {
+  String id;
+  String uid;
+  DateTime selectedDate;
+  int hours;
+  String facility;
+  String starttime;
+
+  User({
+    this.id = '',
+    required this.uid,
+    required this.selectedDate,
+    required this.hours,
+    required this.facility,
+    required this.starttime,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'uid': uid,
+        'facility': facility,
+        'starttime': starttime,
+        'hours': hours,
+        'selectedDate': selectedDate
+      };
 }

@@ -32,6 +32,10 @@ class AuthService {
     );
   }
 
+  Future<String> getCurrentUID() async {
+    return (_auth.currentUser!).uid;
+  }
+
   //Sign Out
   Future<void> signOut() async {
     await _auth.signOut();
