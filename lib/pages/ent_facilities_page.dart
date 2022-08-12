@@ -1,8 +1,7 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, camel_case_types
-
-import 'package:facilities_booking_unionsuites/pages/facility_detail.dart';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'facility_detail.dart';
 
 class Ent_facilities_page extends StatelessWidget {
   @override
@@ -11,9 +10,9 @@ class Ent_facilities_page extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: ListView(
         children: <Widget>[
-          SizedBox(height: 15.0),
+          const SizedBox(height: 15.0),
           Container(
-              padding: EdgeInsets.only(right: 15.0),
+              padding: const EdgeInsets.only(right: 15.0),
               width: MediaQuery.of(context).size.width - 30.0,
               height: MediaQuery.of(context).size.height - 50.0,
               child: GridView.count(
@@ -31,7 +30,7 @@ class Ent_facilities_page extends StatelessWidget {
                       'Room allows 4 pax per session.', context),
                 ],
               )),
-          SizedBox(height: 15.0)
+          const SizedBox(height: 15.0)
         ],
       ),
     );
@@ -40,11 +39,11 @@ class Ent_facilities_page extends StatelessWidget {
   Widget _buildCard(String name, String price, String imgPath, bool added,
       bool isFavorite, String info, context) {
     return Padding(
-        padding: EdgeInsets.only(top: 5.0, bottom: 19.0, left: 5.0, right: 5.0),
+        padding: const EdgeInsets.only(top: 5.0, bottom: 19.0, left: 5.0, right: 5.0),
         child: InkWell(
             onTap: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => FacilityDetail(
+                  MaterialPageRoute(builder: (context) => FacilityDetail2(
                     assetPath: imgPath,
                     facilityprice:  price,
                     facilityname: name,
@@ -63,16 +62,20 @@ class Ent_facilities_page extends StatelessWidget {
                     color: Colors.white),
                 child: Column(children: [
                   Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            isFavorite
-                                ? Icon(Icons.favorite, color: Colors.red)
-                                : Icon(Icons.favorite_border,
-                                    color: Color(0xFFEF7532))
+                            FavoriteButton(
+                              iconSize: 25.0,
+                              isFavorite: false,
+                              iconDisabledColor: Color.alphaBlend(Colors.black12, Colors.white),
+                              valueChanged: (_isFavorite) {
+                                
+                              },
+                            ),
                           ])),
-                          SizedBox(height: 8.0,),
+                          const SizedBox(height: 8.0,),
                   Hero(
                       tag: imgPath,
                       child: Container(
@@ -82,14 +85,14 @@ class Ent_facilities_page extends StatelessWidget {
                               image: DecorationImage(
                                   image: Svg(imgPath),
                                   fit: BoxFit.contain)))),
-                  SizedBox(height: 7.0),
+                  const SizedBox(height: 7.0),
                   Text('RM $price',
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color(0xFFCC8053),
                           fontFamily: 'Varela',
                           fontSize: 20.0)),
                   Text(name,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color(0xFF575E67),
                           fontFamily: 'Varela',
                           fontSize: 20.0)),

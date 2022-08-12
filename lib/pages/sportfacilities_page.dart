@@ -1,8 +1,11 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
 
-import 'package:facilities_booking_unionsuites/pages/facility_detail.dart';
+import 'package:facilities_booking_unionsuites/pages/razorpay_facility_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:favorite_button/favorite_button.dart';
+
+import 'facility_detail.dart';
 
 class FacilityPage extends StatelessWidget {
   @override
@@ -23,11 +26,15 @@ class FacilityPage extends StatelessWidget {
                 mainAxisSpacing: 15.0,
                 childAspectRatio: 0.8,
                 children: <Widget>[
-                  _buildCard('Futsal Pitch', '100', 'assets/images/futsal.svg',
-                      false, false, 
-                      'Pitch available everyday from 9AM to 1AM. Can bring in 9 Guests per game.', context),
-                  _buildCard('Badminton Pitch', '50', 'assets/images/badminton.svg',
-                      true, false, '', context),
+                  _buildCard(
+                      'Futsal Pitch',
+                      '100',
+                      'assets/images/futsal.svg',
+                      false,
+                      'Pitch available everyday from 9AM to 1AM. Can bring in 9 Guests per game.',
+                      context),
+                  _buildCard('Badminton Pitch', '50',
+                      'assets/images/badminton.svg', false, '', context),
                 ],
               )),
           SizedBox(height: 15.0)
@@ -36,22 +43,26 @@ class FacilityPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCard(String name, String price, String imgPath, bool added,
-      bool isFavorite, String info, context) {
+  Widget _buildCard(String name, String price, String imgPath, bool isFavorite,
+      String info, context) {
     return Padding(
         padding: EdgeInsets.only(top: 5.0, bottom: 19.0, left: 5.0, right: 5.0),
         child: InkWell(
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => FacilityDetail(
-                    assetPath: imgPath,
-                    facilityprice:price,
-                    facilityname: name,
-                    info: info,
-                  )));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => FacilityDetail2(
+                        assetPath: imgPath,
+                        facilityprice: price,
+                        facilityname: name,
+                        info: info,
+                      )));
             },
             child: Container(
                 decoration: BoxDecoration(
+                  // can add bg for container
+        //           image: DecorationImage(
+                    // image: AssetImage("assets/images/putimghere.jpg"),
+                    // fit: BoxFit.cover)
                     borderRadius: BorderRadius.circular(18.0),
                     boxShadow: [
                       BoxShadow(
@@ -66,21 +77,27 @@ class FacilityPage extends StatelessWidget {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            isFavorite
-                                ? Icon(Icons.favorite, color: Colors.red)
-                                : Icon(Icons.favorite_border,
-                                    color: Color(0xFFEF7532))
+                            FavoriteButton(
+                              iconSize: 25.0,
+                              isFavorite: false,
+                              iconDisabledColor: Color.alphaBlend(
+                                  Colors.black12, Colors.white),
+                              valueChanged: (_isFavorite) {
+                                isFavorite = _isFavorite;
+                              },
+                            ),
                           ])),
-                          SizedBox(height: 8.0,),
+                  SizedBox(
+                    height: 8.0,
+                  ),
                   Hero(
                       tag: imgPath,
                       child: Container(
-                          height: 75.0,
-                          width: 75.0,
+                          height: 50.0,
+                          width: 50.0,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: Svg(imgPath),
-                                  fit: BoxFit.contain)))),
+                                  image: Svg(imgPath), fit: BoxFit.contain)))),
                   SizedBox(height: 7.0),
                   Text('RM $price',
                       style: TextStyle(
@@ -92,10 +109,6 @@ class FacilityPage extends StatelessWidget {
                           color: Color(0xFF575E67),
                           fontFamily: 'Varela',
                           fontSize: 20.0)),
-                ]
-                )
-                )
-                )
-                );
+                ]))));
   }
 }

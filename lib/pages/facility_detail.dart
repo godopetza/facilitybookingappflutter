@@ -1,102 +1,231 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, prefer_typing_uninitialized_variables, use_key_in_widget_constructors, prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, unnecessary_new
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_picker_timeline/date_picker_timeline.dart';
-import 'package:facilities_booking_unionsuites/pages/failed.dart';
+import 'package:facilities_booking_unionsuites/pages/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:booking_calendar/booking_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:toast/toast.dart';
-
 import '../providers/auth.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-class FacilityDetail extends StatefulWidget {
+class FacilityDetail2 extends StatefulWidget {
   final assetPath, facilityprice, facilityname, info;
 
-  FacilityDetail(
-      {this.assetPath,
-      this.facilityprice,
-      this.facilityname,
-      this.info,});
+  const FacilityDetail2({
+    Key? key,
+    this.facilityname,
+    this.info,
+    this.assetPath,
+    this.facilityprice,
+  }) : super(key: key);
 
   @override
-  State<FacilityDetail> createState() => _FacilityDetailState();
+  State<FacilityDetail2> createState() => _FacilityDetail2State();
 }
 
-class _FacilityDetailState extends State<FacilityDetail> {
-  late Razorpay razorpay;
-
-  final DatePickerController _dateController = DatePickerController();
-
-  late DateTime _selectedDate = DateTime.now();
-
-  TimeOfDay _timeOfDay = TimeOfDay(hour: 0, minute: 00);
+class _FacilityDetail2State extends State<FacilityDetail2> {
   int _currentHours = 1;
-  String totalAmount = "100";
+  int totalAmount = 100;
+  final now = DateTime.now();
+  late BookingService myBookingService;
 
   final String uid = AuthService().currentUser!.uid;
 
-  void _showTimePicker() {
-    showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    ).then((value) {
-      setState(() {
-        _timeOfDay = value!;
-      });
-    });
+  CollectionReference bookings =
+      FirebaseFirestore.instance.collection('bookings');
+
+  CollectionReference<SportBooking> getBookingStream(
+      {required String placeId}) {
+    return bookings
+        .doc(placeId)
+        .collection('bookings')
+        .withConverter<SportBooking>(
+          fromFirestore: (snapshots, _) =>
+              SportBooking.fromJson(snapshots.data()!),
+          toFirestore: (snapshots, _) => snapshots.toJson(),
+        );
+  }
+
+  ///How you actually get the stream of data from Firestore with the help of the previous function
+  ///note that this query filters are for my data structure, you need to adjust it to your solution.
+  Stream<dynamic>? getBookingStreamFirebase(
+      {required DateTime end, required DateTime start}) {
+    return bookings
+        .doc(widget.facilityname)
+        .collection('bookings')
+        .withConverter<SportBooking>(
+            fromFirestore: (snapshots, _) =>
+                SportBooking.fromJson(snapshots.data()!),
+            toFirestore: (snapshots, _) => snapshots.toJson())
+        .where('bookingStart', isGreaterThanOrEqualTo: start)
+        .where('bookingStart',
+            isLessThanOrEqualTo: end)
+        .snapshots();
+  }
+
+  ///After you fetched the data from firestore, we only need to have a list of datetimes from the bookings:
+  List<DateTimeRange> convertStreamResultFirebase(
+      {required dynamic streamResult}) {
+    List<DateTimeRange> converted = [];
+
+    for (var i = 0; i < streamResult.size; i++) {
+      final item = streamResult.docs[i].data();
+      converted.add(
+          DateTimeRange(start: (item.bookingStart!), end: (item.bookingEnd!)));
+    }
+    return converted;
   }
 
   @override
   void initState() {
     super.initState();
-
-    razorpay = new Razorpay();
-    razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlerPaymentSuccess);
-    razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlerPaymentError);
-    razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);
+    initializeDateFormatting();
+    //limit slots
+    myBookingService = BookingService(
+        serviceName: widget.facilityname,
+        serviceDuration: 60,
+        bookingEnd: DateTime(now.year, now.month, now.day, 20, 0),
+        bookingStart: DateTime(now.year, now.month, now.day, 8, 0));
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    razorpay.clear();
+  Widget _calculateTotal() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 10.0, left: 10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // ignore: prefer_const_literals_to_create_immutables
+        children: [
+          const Text('Total',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Varela',
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.bold)),
+          Row(
+            // ignore: prefer_const_literals_to_create_immutables
+            children: [
+              const Text('RM ',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Varela',
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                  )),
+              Text('$totalAmount',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Varela',
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ],
+          )
+        ],
+      ),
+    );
   }
 
-  void handlerPaymentSuccess() {
-    Toast.show("Booking Success", duration: Toast.lengthLong);
+  Widget _bookingexplaination() {
+    return Column(
+      children: [
+        SingleChildScrollView(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton.icon(
+                icon: Icon(
+                  Icons.circle,
+                  color: Colors.green[200],
+                ),
+                label: const Text('Available',
+                    style: TextStyle(color: Colors.white)),
+                onPressed: () {},
+              ),
+              TextButton.icon(
+                icon: const Icon(
+                  Icons.circle,
+                  color: Colors.red,
+                ),
+                label: const Text('Unavailable',
+                    style: TextStyle(color: Colors.white)),
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ),
+        _calculateTotal(),
+        const Divider(
+          thickness: 1,
+          color: Colors.white,
+        ),
+        const Text('HOURS',
+                    style: TextStyle(color: Colors.white)),
+        _pickhours(),
+        const Divider(
+          thickness: 1,
+          color: Colors.white,
+        ),
+      ],
+    );
   }
 
-  void handlerPaymentError() {
-    Toast.show("Error in Payment", duration: Toast.lengthLong);
+  Widget _pickhours() {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Positioned(
+            child: Container(
+          height: 40,
+          width: 40,
+          decoration: BoxDecoration(
+            color: const Color(0xff107163),
+            borderRadius: BorderRadius.circular(50),
+          ),
+        )),
+        NumberPicker(
+          textStyle: const TextStyle(fontSize: 20.0, color: Colors.white),
+          axis: Axis.horizontal,
+          selectedTextStyle: const TextStyle(
+              fontSize: 30.0, color: Colors.white, fontWeight: FontWeight.bold),
+          value: _currentHours,
+          itemHeight: 45,
+          itemWidth: 45,
+          maxValue: 4,
+          itemCount: 7,
+          minValue: 1,
+          onChanged: (v) {
+            setState(() {
+              _currentHours = v;
+              int sum = (int.parse(widget.facilityprice) * _currentHours) + 100;
+              totalAmount = sum;
+            });
+          },
+        ),
+      ],
+    );
   }
 
-  void handlerExternalWallet() {
-    Toast.show("Extrenal Wallet", duration: Toast.lengthLong);
-  }
+  Future<dynamic> uploadBooking({required BookingService newBooking}) async {
+    final uploadedBooking = SportBooking(
+      email: 'email',
+      phoneNumber: 'phoneNumber',
+      placeAddress: 'placeAddress',
+      bookingStart: newBooking.bookingStart,
+      placeId: widget.facilityname,
+      userId: uid,
+      userName: 'userName',
+      serviceName: widget.facilityname,
+      serviceDuration: _currentHours * 60,
+      servicePrice: totalAmount,
+    );
 
-  void openCheckout() {
-    var options = {
-      "key": "rzp_test_b0dKgBYsBlwXaL",
-      "amount": totalAmount * 100,
-      "name": "UnionSuites",
-      "description": 'payment for ${widget.facilityname}',
-      "prefill": {"contact": "9834555555", "email": "user@union.suite"},
-      "external": {
-        "wallets": ["paytm"]
-      }
-    };
-
-    try {
-      razorpay.open(options);
-    } catch (e) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const FailedScreen()),
-      );
-    }
+    await Future.delayed(const Duration(seconds: 1));
+    await bookings
+        .doc(widget.facilityname)
+        .collection('bookings')
+        .add(uploadedBooking.toJson());
+    // .catchError((error) => print("failed booking: $error"));
   }
 
   @override
@@ -108,309 +237,192 @@ class _FacilityDetailState extends State<FacilityDetail> {
         elevation: 0.0,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.notifications_none, color: Colors.white),
+            icon: const Icon(Icons.notifications_none, color: Colors.white),
             onPressed: () {},
           ),
         ],
       ),
-      body: ListView(children: [
-        SizedBox(height: 15.0),
-        Hero(
-            tag: widget.assetPath,
-            child: Image(
-                image: Svg(widget.assetPath),
-                // height: 150.0,
-                // width: 100.0,
-                fit: BoxFit.contain)),
-        SizedBox(height: 20.0),
-        Center(
-          child: Text('RM ${widget.facilityprice}',
-              style: TextStyle(
-                  fontFamily: 'Varela',
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFFF17532))),
-        ),
-        SizedBox(height: 10.0),
-        Center(
-          child: Text(widget.facilityname,
-              style: TextStyle(
-                  color: Color(0xFF575E67),
-                  fontFamily: 'Varela',
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold)),
-        ),
-        SizedBox(height: 20.0),
-        Center(
-          child: Container(
-            width: MediaQuery.of(context).size.width - 50.0,
-            child: Text(
-                //facilityinfo
-                widget.info,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'Varela',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
-                    color: Color(0xFFB4B8B9))),
-          ),
-        ),
-        SizedBox(height: 20.0),
-        //Dates
-        Container(
-          width: MediaQuery.of(context).size.width - 50.0,
-          margin: EdgeInsets.only(left: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                DateFormat.yMMMMd().format(DateTime.now()),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Varela',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                ),
-              ),
-              Text(
-                'Today',
-                style: TextStyle(color: Colors.white),
-              )
-            ],
-          ),
-        ),
-        SizedBox(height: 20.0),
-        //picking dates
-        Container(
-          margin: EdgeInsets.only(left: 30.0, right: 30.0),
-          height: 90.0,
-          child: DatePicker(
-            DateTime.now(),
-            controller: _dateController,
-            initialSelectedDate: DateTime.now(),
-            selectionColor: Color(0xff107163),
-            selectedTextColor: Colors.white,
-            dateTextStyle: TextStyle(fontSize: 10.0, color: Colors.white70),
-            monthTextStyle: TextStyle(fontSize: 9.0, color: Colors.white),
-            dayTextStyle: TextStyle(fontSize: 9.0, color: Colors.white70),
-            onDateChange: (selectedDate) {
-              setState(() {
-                _selectedDate = selectedDate;
-              });
-            },
-          ),
-        ),
-        Center(
-          child: Container(
-            margin: EdgeInsets.only(top: 30),
-            child: Text(
-              'Start Time',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-        ),
-        Center(
-          child: Container(
-              margin: EdgeInsets.only(top: 20),
-              child: GestureDetector(
-                onTap: _showTimePicker,
-                child: Text(
-                  _timeOfDay.format(context).toString(),
-                  style: TextStyle(
-                    fontSize: 50.0,
-                    color: Colors.white,
-                  ),
-                ),
-              )),
-        ),
-        Center(
-          child: Container(
-            margin: EdgeInsets.only(top: 30, bottom: 20.0),
-            child: Text(
-              'Hours',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-        ),
-        Center(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Positioned(
-                  child: Container(
-                height: 40,
-                width: 40,
+      body: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints:
+              BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+          child: ListView(children: [
+            Hero(
+              tag: widget.assetPath,
+              child: Container(
+                height: 150.0,
+                width: 150.0,
                 decoration: BoxDecoration(
-                  color: Color(0xff107163),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-              )),
-              Container(
-                  child: NumberPicker(
-                textStyle: TextStyle(fontSize: 20.0, color: Colors.white),
-                axis: Axis.horizontal,
-                selectedTextStyle: TextStyle(
-                    fontSize: 30.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-                value: _currentHours,
-                itemHeight: 45,
-                itemWidth: 45,
-                maxValue: 4,
-                itemCount: 7,
-                minValue: 1,
-                onChanged: (v) {
-                  setState(() {
-                    _currentHours = v;
-                    int sum =
-                        (int.parse(widget.facilityprice) * _currentHours) + 100;
-                    totalAmount = sum.toString();
-                  });
-                },
-              )),
-            ],
-          ),
-        ),
-        SizedBox(height: 30.0),
-        Padding(
-          padding: const EdgeInsets.only(right: 25.0, left: 25.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // ignore: prefer_const_literals_to_create_immutables
-            children: [
-              Text('Total',
-                  style: TextStyle(
+                    image: DecorationImage(
+                        image: Svg(widget.assetPath), fit: BoxFit.contain)),
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            Center(
+              child: Text('RM ${widget.facilityprice}',
+                  style: const TextStyle(
+                      fontFamily: 'Varela',
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFFF17532))),
+            ),
+            const SizedBox(height: 10.0),
+            Center(
+              child: Text(widget.facilityname,
+                  style: const TextStyle(
+                      color: Color(0xFF575E67),
+                      fontFamily: 'Varela',
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold)),
+            ),
+            const SizedBox(height: 20.0),
+            Center(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width - 50.0,
+                child: Text(
+                    //facilityinfo
+                    widget.info,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontFamily: 'Varela',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                        color: Color(0xFFB4B8B9))),
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            //Dates
+            Container(
+              width: MediaQuery.of(context).size.width - 50.0,
+              margin: const EdgeInsets.only(left: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    DateFormat.yMMMMd().format(DateTime.now()),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontFamily: 'Varela',
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold)),
-              Container(
-                child: Row(
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Text('RM ',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Varela',
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    Text(totalAmount,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Varela',
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ],
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  const Text(
+                    'Today',
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            //picking dates
+            Center(
+              child: Container(
+                margin: const EdgeInsets.only(
+                    left: 30.0, right: 30.0, bottom: 10.0),
+                height: MediaQuery.of(context).size.height * 0.9,
+                child: BookingCalendar(
+                  bookingService: myBookingService,
+                  getBookingStream: getBookingStreamFirebase,
+                  uploadBooking: uploadBooking,
+                  convertStreamResultToDateTimeRanges:
+                      convertStreamResultFirebase,
+                  bookingExplanation: _bookingexplaination(),
                 ),
-              )
-            ],
-          ),
+              ),
+            ),
+            const SizedBox(height: 200.0),
+          ]),
         ),
-        SizedBox(height: 20.0),
-        Center(
-            child: GestureDetector(
-          onTap: () {
-            savebooking(
-              uid: uid,
-              selectedDate: _selectedDate,
-              hours: _currentHours,
-              facility: widget.facilityname,
-              starttime: _timeOfDay,
-            );
-            // openCheckout();
-          },
-          child: Container(
-              margin: EdgeInsets.only(bottom: 50),
-              width: MediaQuery.of(context).size.width - 50.0,
-              height: 50.0,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25.0), color: Colors.red),
-              child: Center(
-                  child: Text(
-                'BOOK',
-                style: TextStyle(
-                    fontFamily: 'Varela',
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ))),
-        ))
-      ]),
+      ),
     );
-  }
-
-  Future savebooking({
-    required DateTime selectedDate,
-    required int hours,
-    required String facility,
-    required TimeOfDay starttime,
-    required String uid,
-  }) async {
-    
-
-    //Reference to database
-    final docUser = FirebaseFirestore.instance
-        .collection('bookings')
-        .doc(uid)
-        .collection(facility);
-
-    final user = User(
-        id: docUser.id,
-        uid: uid,
-        facility: facility,
-        starttime: starttime.toString(),
-        hours: hours,
-        selectedDate: selectedDate);
-
-    final json = user.toJson();
-
-    // Create document and write data to firebase
-    await docUser.add(json);
   }
 }
 
-class User {
-  String id;
-  String uid;
-  DateTime selectedDate;
-  int hours;
-  String facility;
-  String starttime;
+class AppUtil {
+  static DateTime timeStampToDateTime(Timestamp timestamp) {
+    return DateTime.parse(timestamp.toDate().toString());
+  }
 
-  User({
-    this.id = '',
-    required this.uid,
-    required this.selectedDate,
-    required this.hours,
-    required this.facility,
-    required this.starttime,
-  });
+  static Timestamp dateTimeToTimeStamp(DateTime? dateTime) {
+    return Timestamp.fromDate(dateTime ?? DateTime.now()); //To TimeStamp
+  }
+}
 
+@JsonSerializable(explicitToJson: true)
+class SportBooking {
+  /// The generated code assumes these values exist in JSON.
+  final String? userId;
+  final String? userName;
+  final String? placeId;
+  final String? serviceName;
+  final int? serviceDuration;
+  final int? servicePrice;
+
+  @JsonKey(
+      fromJson: AppUtil.timeStampToDateTime,
+      toJson: AppUtil.dateTimeToTimeStamp)
+  final DateTime? bookingStart;
+  @JsonKey(
+      fromJson: AppUtil.timeStampToDateTime,
+      toJson: AppUtil.dateTimeToTimeStamp)
+  final DateTime? bookingEnd;
+  final String? email;
+  final String? phoneNumber;
+  final String? placeAddress;
+
+  SportBooking(
+      {this.email,
+      this.phoneNumber,
+      this.placeAddress,
+      this.bookingStart,
+      this.bookingEnd,
+      this.placeId,
+      this.userId,
+      this.userName,
+      this.serviceName,
+      this.serviceDuration,
+      this.servicePrice});
+
+  /// Connect the generated [_$SportBookingFromJson] function to the `fromJson`
+  /// factory.
+  factory SportBooking.fromJson(Map<String, dynamic> json) => SportBooking(
+        email: json['email'] as String?,
+        phoneNumber: json['phoneNumber'] as String?,
+        placeAddress: json['placeAddress'] as String?,
+        bookingStart:
+            AppUtil.timeStampToDateTime(json['bookingStart'] as Timestamp),
+        bookingEnd:
+            AppUtil.timeStampToDateTime(json['bookingEnd'] as Timestamp),
+        placeId: json['placeId'] as String?,
+        userId: json['userId'] as String?,
+        userName: json['userName'] as String?,
+        serviceName: json['serviceName'] as String?,
+        serviceDuration: json['serviceDuration'] as int?,
+        servicePrice: json['servicePrice'] as int?,
+      );
+
+  get minutes => serviceDuration;
+
+  /// Connect the generated [_$SportBookingToJson] function to the `toJson` method.
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'uid': uid,
-        'facility': facility,
-        'starttime': starttime,
-        'hours': hours,
-        'selectedDate': selectedDate
+        'email': email,
+        'phoneNumber': phoneNumber,
+        'placeAddress': placeAddress,
+        'bookingStart': bookingStart,
+        'bookingEnd': bookingStart!.add(Duration(minutes: minutes)),
+        'placeId': placeId,
+        'userId': userId,
+        'userName': userName,
+        'serviceName': serviceName,
+        'serviceDuration': serviceDuration,
+        'servicePrice': servicePrice,
       };
 }

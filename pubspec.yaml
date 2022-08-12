@@ -47,6 +47,13 @@ dependencies:
   date_time_picker: ^2.1.0
   date_picker_timeline: ^1.2.3
   numberpicker: ^2.1.1
+  favorite_button: ^0.0.4
+  booking_calendar: ^1.1.4
+  json_annotation: ^4.6.0
+  app_utils: ^0.0.4
+  firebase_helpers: ^0.5.0
+  table_calendar: ^3.0.6
+  flutter_form_builder: ^7.5.0
 
 dev_dependencies:
   flutter_test:
