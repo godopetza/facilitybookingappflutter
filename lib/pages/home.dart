@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:facilities_booking_unionsuites/pages/comingsoonbooking.dart';
 import 'package:flutter/material.dart';
 import 'ent_facilities_page.dart';
+import 'historypage.dart';
 import 'sportfacilities_page.dart';
 import 'study_facilities_page.dart';
 
@@ -52,7 +52,7 @@ with SingleTickerProviderStateMixin {
                                 //make history page
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const CoomingSoon()),
+                                  MaterialPageRoute(builder: (context) => const HistoryPage()),
                                 );
                               },
                               child: Text(

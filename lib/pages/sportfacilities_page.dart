@@ -1,6 +1,5 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
 
-import 'package:facilities_booking_unionsuites/pages/razorpay_facility_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:favorite_button/favorite_button.dart';
