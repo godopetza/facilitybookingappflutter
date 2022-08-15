@@ -19,6 +19,7 @@ class _BottomBarState extends State<BottomBar> {
   Widget build(BuildContext context) {
     
     return Scaffold(
+      backgroundColor: Colors.black,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

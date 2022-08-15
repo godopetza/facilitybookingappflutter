@@ -27,37 +27,36 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  flutter:
-    sdk: flutter
-
+  app_utils: ^0.0.4
+  booking_calendar: ^1.1.4
+  cloud_firestore: ^3.4.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  date_picker_timeline: ^1.2.3
+  date_time_picker: ^2.1.0
+  favorite_button: ^0.0.4
+  firebase_auth: ^3.6.1
+  firebase_core: ^1.20.0
+  firebase_helpers: ^0.5.0
+  flutter:
+    sdk: flutter
+  flutter_form_builder: ^7.5.0
+  flutter_launcher_icons: ^0.10.0
   flutter_spinkit: ^5.1.0
   flutter_svg: ^1.1.1+1
   flutter_svg_provider: ^1.0.3
-  razorpay_flutter: ^1.3.0
-  toast: ^0.3.0
-  firebase_core: ^1.20.0
-  firebase_auth: ^3.6.1
-  cloud_firestore: ^3.4.2
-  provider: ^6.0.3
   intl:
-  date_time_picker: ^2.1.0
-  date_picker_timeline: ^1.2.3
-  numberpicker: ^2.1.1
-  favorite_button: ^0.0.4
-  booking_calendar: ^1.1.4
   json_annotation: ^4.6.0
-  app_utils: ^0.0.4
-  firebase_helpers: ^0.5.0
+  numberpicker: ^2.1.1
+  provider: ^6.0.3
+  qr_flutter: ^4.0.0
+  razorpay_flutter: ^1.3.0
   table_calendar: ^3.0.6
-  flutter_form_builder: ^7.5.0
+  toast: ^0.3.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -65,10 +64,18 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.jpg"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/icons/images/1024.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -81,13 +88,10 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

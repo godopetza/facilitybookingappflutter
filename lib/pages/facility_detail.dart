@@ -58,8 +58,7 @@ class _FacilityDetail2State extends State<FacilityDetail2> {
                 SportBooking.fromJson(snapshots.data()!),
             toFirestore: (snapshots, _) => snapshots.toJson())
         .where('bookingStart', isGreaterThanOrEqualTo: start)
-        .where('bookingStart',
-            isLessThanOrEqualTo: end)
+        .where('bookingStart', isLessThanOrEqualTo: end)
         .snapshots();
   }
 
@@ -158,8 +157,7 @@ class _FacilityDetail2State extends State<FacilityDetail2> {
           thickness: 1,
           color: Colors.white,
         ),
-        const Text('HOURS',
-                    style: TextStyle(color: Colors.white)),
+        const Text('HOURS', style: TextStyle(color: Colors.white)),
         _pickhours(),
         const Divider(
           thickness: 1,
