@@ -13,8 +13,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> 
-with SingleTickerProviderStateMixin {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -27,49 +26,45 @@ with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-            body: SafeArea(
-              child: ListView(
-                    padding: EdgeInsets.only(left: 20.0),
-                    children: <Widget>[
-                      SizedBox(height: 15.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          Text(
-                            'Categories',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Varela',
-                              fontSize: 42.0,
-                              fontWeight: FontWeight.bold
-                            )
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                //make history page
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const HistoryPage()),
-                                );
-                              },
-                              child: Text(
-                                'History',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Varela',
-                                  fontSize: 21.0,
-                                  fontWeight: FontWeight.bold,
-                                )
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 15.0),
-                      TabBar(
+      body: SafeArea(
+        child: ListView(
+          padding: EdgeInsets.only(left: 20.0),
+          children: <Widget>[
+            SizedBox(height: 15.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [
+                Text('Categories',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Varela',
+                        fontSize: 42.0,
+                        fontWeight: FontWeight.bold)),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      //make history page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HistoryPage()),
+                      );
+                    },
+                    child: Text('History',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Varela',
+                          fontSize: 21.0,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(height: 15.0),
+            TabBar(
                 controller: _tabController,
                 indicatorColor: Colors.transparent,
                 labelColor: Colors.orange,
@@ -100,23 +95,22 @@ with SingleTickerProviderStateMixin {
                         )),
                   )
                 ]),
-                //show facilities here
-                SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  width: double.infinity,
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      FacilityPage(),
-                      Ent_facilities_page(),
-                      Study_facilities_page(),
-                    ],
-                  ),
-                )
-            
-                    ],
-                  ),
-            ),
+            //show facilities here
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: double.infinity,
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  FacilityPage(),
+                  Ent_facilities_page(),
+                  Study_facilities_page(),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

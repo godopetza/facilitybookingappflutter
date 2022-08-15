@@ -19,22 +19,21 @@ class _ResetPasswordState extends State<ResetPassword> {
           children: <Widget>[
             const Image(image: AssetImage('assets/images/logo.jpg')),
             const Text(
-              'Reset Your Password!', 
+              'Reset Your Password!',
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0,
-                ),
-                ),
+              ),
+            ),
             const SizedBox(height: 50),
             //username textfield
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.orange)
-                ),
+                    color: Colors.white,
+                    border: Border.all(color: Colors.orange)),
                 child: const Padding(
                   padding: EdgeInsets.only(left: 20.0),
                   child: TextField(
@@ -56,19 +55,18 @@ class _ResetPasswordState extends State<ResetPassword> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.deepOrange,
-                    borderRadius: BorderRadius.circular(12)
-                    ),
+                      color: Colors.deepOrange,
+                      borderRadius: BorderRadius.circular(12)),
                   child: const Padding(
                     padding: EdgeInsets.all(20.0),
                     child: Center(
-                      child: Text(
+                        child: Text(
                       'Reset Password',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                        ),
+                      ),
                     )),
                   ),
                 ),

@@ -68,15 +68,15 @@ class _HistoryPageState extends State<HistoryPage> {
           DropdownButton<String>(
             value: selectedItem,
             items: services
-            .map((item) => DropdownMenuItem<String>(
-              value: item,
-              child: Text(item, style: const TextStyle(fontSize: 15, color: Colors.white))
-            )).toList(),
+                .map((item) => DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(item,
+                        style: const TextStyle(
+                            fontSize: 15, color: Colors.white))))
+                .toList(),
             onChanged: (item) => setState(() => selectedItem = item),
-            icon: const Icon(
-              Icons.arrow_drop_down_circle,
-              color: Colors.white),
-              dropdownColor: Colors.black,
+            icon: const Icon(Icons.arrow_drop_down_circle, color: Colors.white),
+            dropdownColor: Colors.black,
           ),
           StreamBuilder<List<SportBooking>>(
               stream: readBooking(),

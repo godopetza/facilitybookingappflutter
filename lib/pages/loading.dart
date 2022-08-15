@@ -15,16 +15,18 @@ class _LoadingState extends State<Loading> {
       backgroundColor: Colors.black,
       body: Column(
         children: const <Widget>[
-          SizedBox(height: 500.0,),
+          SizedBox(
+            height: 500.0,
+          ),
           SpinKitCircle(
             color: Colors.orange,
             size: 50.0,
           ),
-          SizedBox(height: 20.0,),
-          Text(
-            'loading',
-          style: TextStyle(color: Colors.white, fontSize: 20.0)
+          SizedBox(
+            height: 20.0,
           ),
+          Text('loading',
+              style: TextStyle(color: Colors.white, fontSize: 20.0)),
         ],
       ),
     );

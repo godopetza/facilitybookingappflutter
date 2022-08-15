@@ -17,7 +17,6 @@ class _BottomBarState extends State<BottomBar> {
   final PageController _myPage = PageController(initialPage: 0);
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Colors.black,
       floatingActionButton: FloatingActionButton(
@@ -32,84 +31,81 @@ class _BottomBarState extends State<BottomBar> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 6.0,
-        color: Colors.black,
-        elevation: 9.0,
-        clipBehavior: Clip.antiAlias,
-        child: Container(
-          height: 50.0,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(25.0),
-              topRight: Radius.circular(25.0)
-            ),
-            // color: Colors.white
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                height: 50.0,
-                width: MediaQuery.of(context).size.width /2 - 40.0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: <Widget>[
-                    //home
-                    IconButton(
-                      icon: Icon(Icons.home_outlined, color: Colors.white),
-                      onPressed: () {
-                        setState(() {
-                          _myPage.jumpToPage(0);
-                        });
-                      },
-                    ),
-                    //person_outline
-                    IconButton(
-                      icon: Icon(Icons.person_outline, color: Colors.white),
-                      onPressed: () {
-                        setState(() {
-                          _myPage.jumpToPage(1);
-                        });
-                      },
-                    ),
-                  ],
-                )
+          shape: CircularNotchedRectangle(),
+          notchMargin: 6.0,
+          color: Colors.black,
+          elevation: 9.0,
+          clipBehavior: Clip.antiAlias,
+          child: Container(
+              height: 50.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25.0),
+                    topRight: Radius.circular(25.0)),
+                // color: Colors.white
               ),
-              Container(
-                height: 50.0,
-                width: MediaQuery.of(context).size.width /2 - 40.0,
-                child: Row(
+              child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: <Widget>[
-                    //search
-                    IconButton(
-                      icon: Icon(Icons.search, color: Colors.white),
-                      onPressed: () {
-                        setState(() {
-                          _myPage.jumpToPage(2);
-                        });
-                      },
-                    ),
-                    //favorite_border
-                    IconButton(
-                      icon: Icon(Icons.favorite_border, color: Colors.white),
-                      onPressed: () {
-                        setState(() {
-                          _myPage.jumpToPage(3);
-                        });
-                      },
-                    ),
-                  ],
-                )
-              ),
-            ]
-          )
-        )
-      ),
-       body: PageView(
+                  children: [
+                    Container(
+                        height: 50.0,
+                        width: MediaQuery.of(context).size.width / 2 - 40.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: <Widget>[
+                            //home
+                            IconButton(
+                              icon: Icon(Icons.home_outlined,
+                                  color: Colors.white),
+                              onPressed: () {
+                                setState(() {
+                                  _myPage.jumpToPage(0);
+                                });
+                              },
+                            ),
+                            //person_outline
+                            IconButton(
+                              icon: Icon(Icons.person_outline,
+                                  color: Colors.white),
+                              onPressed: () {
+                                setState(() {
+                                  _myPage.jumpToPage(1);
+                                });
+                              },
+                            ),
+                          ],
+                        )),
+                    Container(
+                        height: 50.0,
+                        width: MediaQuery.of(context).size.width / 2 - 40.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: <Widget>[
+                            //search
+                            IconButton(
+                              icon: Icon(Icons.search, color: Colors.white),
+                              onPressed: () {
+                                setState(() {
+                                  _myPage.jumpToPage(2);
+                                });
+                              },
+                            ),
+                            //favorite_border
+                            IconButton(
+                              icon: Icon(Icons.favorite_border,
+                                  color: Colors.white),
+                              onPressed: () {
+                                setState(() {
+                                  _myPage.jumpToPage(3);
+                                });
+                              },
+                            ),
+                          ],
+                        )),
+                  ]))),
+      body: PageView(
         controller: _myPage,
         // This will print in your console to show page changes for testing
         // onPageChanged: (int) {

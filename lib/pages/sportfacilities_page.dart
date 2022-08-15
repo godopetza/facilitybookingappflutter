@@ -58,8 +58,8 @@ class FacilityPage extends StatelessWidget {
             },
             child: Container(
                 decoration: BoxDecoration(
-                  // can add bg for container
-        //           image: DecorationImage(
+                    // can add bg for container
+                    //           image: DecorationImage(
                     // image: AssetImage("assets/images/putimghere.jpg"),
                     // fit: BoxFit.cover)
                     borderRadius: BorderRadius.circular(18.0),

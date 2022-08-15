@@ -34,8 +34,8 @@ class Study_facilities_page extends StatelessWidget {
     );
   }
 
-  Widget _buildCard(String name, String price, String imgPath,
-      bool isFavorite, String info, context) {
+  Widget _buildCard(String name, String price, String imgPath, bool isFavorite,
+      String info, context) {
     return Padding(
         padding: EdgeInsets.only(top: 5.0, bottom: 19.0, left: 5.0, right: 5.0),
         child: InkWell(
@@ -67,10 +67,9 @@ class Study_facilities_page extends StatelessWidget {
                             FavoriteButton(
                               iconSize: 25.0,
                               isFavorite: false,
-                              iconDisabledColor: Color.alphaBlend(Colors.black12, Colors.white),
-                              valueChanged: (_isFavorite) {
-                                
-                              },
+                              iconDisabledColor: Color.alphaBlend(
+                                  Colors.black12, Colors.white),
+                              valueChanged: (_isFavorite) {},
                             ),
                           ])),
                   SizedBox(
@@ -95,7 +94,6 @@ class Study_facilities_page extends StatelessWidget {
                           color: Color(0xFF575E67),
                           fontFamily: 'Varela',
                           fontSize: 20.0)),
-                ]
-                ))));
+                ]))));
   }
 }

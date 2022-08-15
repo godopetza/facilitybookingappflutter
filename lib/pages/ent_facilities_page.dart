@@ -23,11 +23,9 @@ class Ent_facilities_page extends StatelessWidget {
                 childAspectRatio: 0.8,
                 children: <Widget>[
                   _buildCard('Arcade Room', '0', 'assets/images/arcaderoom.svg',
-                      false, false, 
-                      'Allows 6 pax per session.', context),
+                      false, false, 'Allows 6 pax per session.', context),
                   _buildCard('Theater Room', '100', 'assets/images/theater.svg',
-                      false, false, 
-                      'Room allows 4 pax per session.', context),
+                      false, false, 'Room allows 4 pax per session.', context),
                 ],
               )),
           const SizedBox(height: 15.0)
@@ -39,16 +37,17 @@ class Ent_facilities_page extends StatelessWidget {
   Widget _buildCard(String name, String price, String imgPath, bool added,
       bool isFavorite, String info, context) {
     return Padding(
-        padding: const EdgeInsets.only(top: 5.0, bottom: 19.0, left: 5.0, right: 5.0),
+        padding: const EdgeInsets.only(
+            top: 5.0, bottom: 19.0, left: 5.0, right: 5.0),
         child: InkWell(
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => FacilityDetail2(
-                    assetPath: imgPath,
-                    facilityprice:  price,
-                    facilityname: name,
-                    info: info,
-                  )));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => FacilityDetail2(
+                        assetPath: imgPath,
+                        facilityprice: price,
+                        facilityname: name,
+                        info: info,
+                      )));
             },
             child: Container(
                 decoration: BoxDecoration(
@@ -69,13 +68,14 @@ class Ent_facilities_page extends StatelessWidget {
                             FavoriteButton(
                               iconSize: 25.0,
                               isFavorite: false,
-                              iconDisabledColor: Color.alphaBlend(Colors.black12, Colors.white),
-                              valueChanged: (_isFavorite) {
-                                
-                              },
+                              iconDisabledColor: Color.alphaBlend(
+                                  Colors.black12, Colors.white),
+                              valueChanged: (_isFavorite) {},
                             ),
                           ])),
-                          const SizedBox(height: 8.0,),
+                  const SizedBox(
+                    height: 8.0,
+                  ),
                   Hero(
                       tag: imgPath,
                       child: Container(
@@ -83,8 +83,7 @@ class Ent_facilities_page extends StatelessWidget {
                           width: 75.0,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: Svg(imgPath),
-                                  fit: BoxFit.contain)))),
+                                  image: Svg(imgPath), fit: BoxFit.contain)))),
                   const SizedBox(height: 7.0),
                   Text('RM $price',
                       style: const TextStyle(
@@ -96,10 +95,6 @@ class Ent_facilities_page extends StatelessWidget {
                           color: Color(0xFF575E67),
                           fontFamily: 'Varela',
                           fontSize: 20.0)),
-                ]
-                )
-                )
-                )
-                );
+                ]))));
   }
 }

@@ -20,19 +20,25 @@ class _SuccessState extends State<Success> {
           // ignore: prefer_const_literals_to_create_immutables
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 120.0),
-              child: CircleAvatar(backgroundColor: Colors.green,
-              radius: 150, child: Icon(Icons.check, color: Colors.black, size: 150.0,),)
-            ),
+                padding: const EdgeInsets.symmetric(horizontal: 120.0),
+                child: CircleAvatar(
+                  backgroundColor: Colors.green,
+                  radius: 150,
+                  child: Icon(
+                    Icons.check,
+                    color: Colors.black,
+                    size: 150.0,
+                  ),
+                )),
             SizedBox(height: 30.0),
             Text(
-              'Successful', 
+              'Successful',
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 30.0,
-                ),
-                ),
+              ),
+            ),
           ],
         ),
       ),

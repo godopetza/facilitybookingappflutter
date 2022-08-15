@@ -34,7 +34,8 @@ class UserProfile extends StatelessWidget {
                 Icons.logout,
                 color: Colors.white,
               ),
-              label: const Text('Logout', style: TextStyle(color: Colors.white)),
+              label:
+                  const Text('Logout', style: TextStyle(color: Colors.white)),
               onPressed: () {
                 signOut();
               },

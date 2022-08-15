@@ -22,8 +22,15 @@ class _CoomingSoonState extends State<CoomingSoon> {
             crossAxisAlignment: CrossAxisAlignment.center,
             // ignore: prefer_const_literals_to_create_immutables
             children: [
-              Image(image: Svg('assets/images/under_construction.svg'), height: 250.0, width: 250.0,),
-              Text('Under Construction', style: TextStyle(color: Colors.white, fontSize: 25.0),)
+              Image(
+                image: Svg('assets/images/under_construction.svg'),
+                height: 250.0,
+                width: 250.0,
+              ),
+              Text(
+                'Under Construction',
+                style: TextStyle(color: Colors.white, fontSize: 25.0),
+              )
             ],
           ),
         ),

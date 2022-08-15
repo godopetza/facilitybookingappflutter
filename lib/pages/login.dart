@@ -32,10 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _errorMessage() {
     return Text(
-      errorMessage == '' ? '' : 'Hmm ? $errorMessage', 
-      style: TextStyle(
-        color: Colors.white
-        ),
+      errorMessage == '' ? '' : 'Hmm ? $errorMessage',
+      style: TextStyle(color: Colors.white),
     );
   }
 
@@ -102,27 +100,27 @@ class _LoginScreenState extends State<LoginScreen> {
             //login button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: GestureDetector(
-                  onTap: isLogin ? signInWithEmailAndPassword : _errorMessage,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.deepOrange,
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Center(
-                          child: Text(
-                        'Log In',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      )),
-                    ),
+              child: GestureDetector(
+                onTap: isLogin ? signInWithEmailAndPassword : _errorMessage,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.deepOrange,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Center(
+                        child: Text(
+                      'Log In',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    )),
                   ),
                 ),
               ),
+            ),
             _errorMessage(),
           ],
         ),
