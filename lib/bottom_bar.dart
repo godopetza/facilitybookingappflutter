@@ -4,6 +4,7 @@ import 'package:facilities_booking_unionsuites/pages/comingsoonbooking.dart';
 import 'package:facilities_booking_unionsuites/pages/user_profile.dart';
 import 'package:flutter/material.dart';
 
+import 'pages/chats_page.dart';
 import 'pages/home.dart';
 
 class BottomBar extends StatefulWidget {
@@ -85,7 +86,7 @@ class _BottomBarState extends State<BottomBar> {
                           children: <Widget>[
                             //search
                             IconButton(
-                              icon: Icon(Icons.search, color: Colors.white),
+                              icon: Icon(Icons.messenger_outline_sharp, color: Colors.white),
                               onPressed: () {
                                 setState(() {
                                   _myPage.jumpToPage(2);
@@ -115,7 +116,7 @@ class _BottomBarState extends State<BottomBar> {
         children: <Widget>[
           Home(),
           UserProfile(),
-          CoomingSoon(),
+          ChatsPage(),
           CoomingSoon()
         ], // Comment this if you need to use Swipe.
       ),

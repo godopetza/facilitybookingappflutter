@@ -9,18 +9,6 @@ class AuthService {
   // auth change user stream
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
-  // //sign in anon
-  // Future signInAnon() async {
-  //   try {
-  //     UserCredential result = await _auth.signInAnonymously();
-  //     User? user = result.user;
-  //     return _userFromFirebaseUser(user!);
-  //   } catch (e) {
-  //     print(e.toString());
-  //     return null;
-  //   }
-  // }
-
   // sign in email & password
   Future<void> signInWithEmailAndPassword({
     required String email,

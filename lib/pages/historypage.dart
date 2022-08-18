@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import '../models/appUtil.dart';
 import '../providers/auth.dart';
@@ -91,7 +92,12 @@ class _HistoryPageState extends State<HistoryPage> {
                     children: booking.map(buildBooking).toList(),
                   );
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                    child: SpinKitCircle(
+                      color: Colors.orange,
+                      size: 50.0,
+                    ),
+                  );
                 }
               }),
         ],
