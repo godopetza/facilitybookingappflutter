@@ -5,6 +5,7 @@ import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_8.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../providers/auth.dart';
 
@@ -79,6 +80,14 @@ class _ChatDetailState extends State<ChatDetail> {
     return Alignment.topLeft;
   }
 
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -115,7 +124,10 @@ class _ChatDetailState extends State<ChatDetail> {
               ),
               trailing: CupertinoButton(
                 padding: EdgeInsets.zero,
-                onPressed: () {},
+                onPressed: () {
+                  //service call
+                  _makePhoneCall('+6012345678');
+                },
                 child: const Icon(CupertinoIcons.phone),
               ),
               previousPageTitle: "Back",
