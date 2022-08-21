@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
 import 'package:facilities_booking_unionsuites/pages/comingsoonbooking.dart';
+import 'package:facilities_booking_unionsuites/pages/infopage.dart';
 import 'package:facilities_booking_unionsuites/pages/user_profile.dart';
 import 'package:flutter/material.dart';
 
@@ -95,7 +96,7 @@ class _BottomBarState extends State<BottomBar> {
                             ),
                             //favorite_border
                             IconButton(
-                              icon: Icon(Icons.favorite_border,
+                              icon: Icon(Icons.info_outline_rounded,
                                   color: Colors.white),
                               onPressed: () {
                                 setState(() {
@@ -117,7 +118,7 @@ class _BottomBarState extends State<BottomBar> {
           Home(),
           UserProfile(),
           ChatsPage(),
-          CoomingSoon()
+          InfoPage()
         ], // Comment this if you need to use Swipe.
       ),
     );

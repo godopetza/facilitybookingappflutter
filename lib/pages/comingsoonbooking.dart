@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
@@ -14,6 +12,7 @@ class _CoomingSoonState extends State<CoomingSoon> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: Colors.black),
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Center(
@@ -22,12 +21,12 @@ class _CoomingSoonState extends State<CoomingSoon> {
             crossAxisAlignment: CrossAxisAlignment.center,
             // ignore: prefer_const_literals_to_create_immutables
             children: [
-              Image(
+              const Image(
                 image: Svg('assets/images/under_construction.svg'),
                 height: 250.0,
                 width: 250.0,
               ),
-              Text(
+              const Text(
                 'Under Construction',
                 style: TextStyle(color: Colors.white, fontSize: 25.0),
               )
