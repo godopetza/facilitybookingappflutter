@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>605712293051-9n9ef951f367h3ip64ndrcn6o88rcsaa.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.605712293051-9n9ef951f367h3ip64ndrcn6o88rcsaa</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCH3QiUUn0s6Rw-lTV9iVZHz3NwYt6zha4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>605712293051</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.godope.unionsuitesbooking</string>
+	<key>PROJECT_ID</key>
+	<string>facilitybookingflutter</string>
+	<key>STORAGE_BUCKET</key>
+	<string>facilitybookingflutter.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:605712293051:ios:8c0f4781792b5ccec45d9e</string>
+</dict>
+</plist>
