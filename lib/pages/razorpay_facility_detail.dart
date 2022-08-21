@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, prefer_typing_uninitialized_variables, use_key_in_widget_constructors, prefer_const_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, unnecessary_new
+// ignore_for_file:  prefer_typing_uninitialized_variables, use_key_in_widget_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, unnecessary_new
 // This has razorpay api integrated
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
@@ -8,13 +8,12 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:toast/toast.dart';
 import '../providers/auth.dart';
 
 class FacilityDetail extends StatefulWidget {
   final assetPath, facilityprice, facilityname, info;
 
-  FacilityDetail({
+  const FacilityDetail({
     this.assetPath,
     this.facilityprice,
     this.facilityname,
@@ -32,7 +31,7 @@ class _FacilityDetailState extends State<FacilityDetail> {
 
   late DateTime _selectedDate = DateTime.now();
 
-  TimeOfDay _timeOfDay = TimeOfDay(hour: 0, minute: 00);
+  TimeOfDay _timeOfDay = const TimeOfDay(hour: 0, minute: 00);
   int _currentHours = 1;
   String totalAmount = "100";
 
@@ -66,15 +65,15 @@ class _FacilityDetailState extends State<FacilityDetail> {
   }
 
   void handlerPaymentSuccess() {
-    Toast.show("Booking Success", duration: Toast.lengthLong);
+    
   }
 
   void handlerPaymentError() {
-    Toast.show("Error in Payment", duration: Toast.lengthLong);
+    
   }
 
   void handlerExternalWallet() {
-    Toast.show("Extrenal Wallet", duration: Toast.lengthLong);
+    
   }
 
   void openCheckout() {
@@ -108,20 +107,20 @@ class _FacilityDetailState extends State<FacilityDetail> {
         elevation: 0.0,
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.notifications_none, color: Colors.white),
+            icon: const Icon(Icons.notifications_none, color: Colors.white),
             onPressed: () {},
           ),
         ],
       ),
       body: ListView(children: [
-        SizedBox(height: 15.0),
+        const SizedBox(height: 15.0),
         Hero(
             tag: widget.assetPath,
             child: Image(
@@ -129,25 +128,25 @@ class _FacilityDetailState extends State<FacilityDetail> {
                 // height: 150.0,
                 // width: 100.0,
                 fit: BoxFit.contain)),
-        SizedBox(height: 20.0),
+        const SizedBox(height: 20.0),
         Center(
           child: Text('RM ${widget.facilityprice}',
-              style: TextStyle(
+              style: const TextStyle(
                   fontFamily: 'Varela',
                   fontSize: 22.0,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFFF17532))),
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Center(
           child: Text(widget.facilityname,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color(0xFF575E67),
                   fontFamily: 'Varela',
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold)),
         ),
-        SizedBox(height: 20.0),
+        const SizedBox(height: 20.0),
         Center(
           child: Container(
             width: MediaQuery.of(context).size.width - 50.0,
@@ -155,51 +154,51 @@ class _FacilityDetailState extends State<FacilityDetail> {
                 //facilityinfo
                 widget.info,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontFamily: 'Varela',
                     fontWeight: FontWeight.bold,
                     fontSize: 16.0,
                     color: Color(0xFFB4B8B9))),
           ),
         ),
-        SizedBox(height: 20.0),
+        const SizedBox(height: 20.0),
         //Dates
         Container(
           width: MediaQuery.of(context).size.width - 50.0,
-          margin: EdgeInsets.only(left: 30),
+          margin: const EdgeInsets.only(left: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 DateFormat.yMMMMd().format(DateTime.now()),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontFamily: 'Varela',
                   fontWeight: FontWeight.bold,
                   fontSize: 20.0,
                 ),
               ),
-              Text(
+              const Text(
                 'Today',
                 style: TextStyle(color: Colors.white),
               )
             ],
           ),
         ),
-        SizedBox(height: 20.0),
+        const SizedBox(height: 20.0),
         //picking dates
         Container(
-          margin: EdgeInsets.only(left: 30.0, right: 30.0),
+          margin: const EdgeInsets.only(left: 30.0, right: 30.0),
           height: 90.0,
           child: DatePicker(
             DateTime.now(),
             controller: _dateController,
             initialSelectedDate: DateTime.now(),
-            selectionColor: Color(0xff107163),
+            selectionColor: const Color(0xff107163),
             selectedTextColor: Colors.white,
-            dateTextStyle: TextStyle(fontSize: 15.0, color: Colors.white24),
-            monthTextStyle: TextStyle(fontSize: 10.0, color: Colors.white),
-            dayTextStyle: TextStyle(fontSize: 10.0, color: Colors.white70),
+            dateTextStyle: const TextStyle(fontSize: 15.0, color: Colors.white24),
+            monthTextStyle: const TextStyle(fontSize: 10.0, color: Colors.white),
+            dayTextStyle: const TextStyle(fontSize: 10.0, color: Colors.white70),
             onDateChange: (selectedDate) {
               setState(() {
                 _selectedDate = selectedDate;
@@ -209,8 +208,8 @@ class _FacilityDetailState extends State<FacilityDetail> {
         ),
         Center(
           child: Container(
-            margin: EdgeInsets.only(top: 30),
-            child: Text(
+            margin: const EdgeInsets.only(top: 30),
+            child: const Text(
               'Start Time',
               style: TextStyle(
                 color: Colors.white,
@@ -223,12 +222,12 @@ class _FacilityDetailState extends State<FacilityDetail> {
         ),
         Center(
           child: Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.only(top: 20),
               child: GestureDetector(
                 onTap: _showTimePicker,
                 child: Text(
                   _timeOfDay.format(context).toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 50.0,
                     color: Colors.white,
                   ),
@@ -237,8 +236,8 @@ class _FacilityDetailState extends State<FacilityDetail> {
         ),
         Center(
           child: Container(
-            margin: EdgeInsets.only(top: 30, bottom: 20.0),
-            child: Text(
+            margin: const EdgeInsets.only(top: 30, bottom: 20.0),
+            child: const Text(
               'Hours',
               style: TextStyle(
                 color: Colors.white,
@@ -258,15 +257,15 @@ class _FacilityDetailState extends State<FacilityDetail> {
                 height: 40,
                 width: 40,
                 decoration: BoxDecoration(
-                  color: Color(0xff107163),
+                  color: const Color(0xff107163),
                   borderRadius: BorderRadius.circular(50),
                 ),
               )),
               Container(
                   child: NumberPicker(
-                textStyle: TextStyle(fontSize: 20.0, color: Colors.white),
+                textStyle: const TextStyle(fontSize: 20.0, color: Colors.white),
                 axis: Axis.horizontal,
-                selectedTextStyle: TextStyle(
+                selectedTextStyle: const TextStyle(
                     fontSize: 30.0,
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
@@ -288,14 +287,14 @@ class _FacilityDetailState extends State<FacilityDetail> {
             ],
           ),
         ),
-        SizedBox(height: 30.0),
+        const SizedBox(height: 30.0),
         Padding(
           padding: const EdgeInsets.only(right: 25.0, left: 25.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             // ignore: prefer_const_literals_to_create_immutables
             children: [
-              Text('Total',
+              const Text('Total',
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Varela',
@@ -305,7 +304,7 @@ class _FacilityDetailState extends State<FacilityDetail> {
                 child: Row(
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
-                    Text('RM ',
+                    const Text('RM ',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Varela',
@@ -313,7 +312,7 @@ class _FacilityDetailState extends State<FacilityDetail> {
                           fontWeight: FontWeight.bold,
                         )),
                     Text(totalAmount,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontFamily: 'Varela',
                           fontSize: 15.0,
@@ -325,7 +324,7 @@ class _FacilityDetailState extends State<FacilityDetail> {
             ],
           ),
         ),
-        SizedBox(height: 20.0),
+        const SizedBox(height: 20.0),
         Center(
             child: GestureDetector(
           onTap: () {
@@ -339,12 +338,12 @@ class _FacilityDetailState extends State<FacilityDetail> {
             // openCheckout();
           },
           child: Container(
-              margin: EdgeInsets.only(bottom: 50),
+              margin: const EdgeInsets.only(bottom: 50),
               width: MediaQuery.of(context).size.width - 50.0,
               height: 50.0,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25.0), color: Colors.red),
-              child: Center(
+              child: const Center(
                   child: Text(
                 'BOOK',
                 style: TextStyle(

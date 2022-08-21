@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -34,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _errorMessage() {
     return Text(
       errorMessage == '' ? '' : 'Hmm ? $errorMessage',
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     );
   }
 
@@ -48,8 +46,8 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             // ignore: prefer_const_literals_to_create_immutables
             children: <Widget>[
-              Image(image: AssetImage('assets/images/logo.jpg')),
-              Text(
+              const Image(image: AssetImage('assets/images/logo.jpg')),
+              const Text(
                 'Welcome Back!',
                 style: TextStyle(
                   color: Colors.white,
@@ -57,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontSize: 20.0,
                 ),
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               //username textfield
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -69,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
                       controller: _emailController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Username',
                       ),
@@ -77,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               //password textfield
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -90,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: TextField(
                       controller: _passwordController,
                       obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Password',
                       ),
@@ -98,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               //login button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -108,8 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: BoxDecoration(
                         color: Colors.deepOrange,
                         borderRadius: BorderRadius.circular(12)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(20.0),
                       child: Center(
                           child: Text(
                         'Log In',

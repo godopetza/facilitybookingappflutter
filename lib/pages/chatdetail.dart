@@ -168,6 +168,7 @@ class _ChatDetailState extends State<ChatDetail> {
                                       children: [
                                         Text(data['msg'],
                                             style: TextStyle(
+                                                decoration: TextDecoration.none,
                                                 fontSize: 18,
                                                 color: isSender(
                                                         data['uid'].toString())
@@ -186,6 +187,7 @@ class _ChatDetailState extends State<ChatDetail> {
                                                   .toDate()
                                                   .toString(),
                                           style: TextStyle(
+                                              decoration: TextDecoration.none,
                                               fontSize: 10,
                                               color: isSender(
                                                       data['uid'].toString())
