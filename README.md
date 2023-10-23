@@ -1,4 +1,6 @@
-# facilities_booking_unionsuites
+[![Made in Tanzania](https://img.shields.io/badge/made%20in-tanzania-008751.svg?style=flat-square)](https://github.com/Tanzania-Developers-Community/made-in-tanzania)
+
+# facilities booking app.
 
 This is a flutter app that allows residents to book facilities at their apartment building.
 
